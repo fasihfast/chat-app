@@ -3,55 +3,54 @@ import bcrypt from "bcryptjs"
 import {generateToken} from '../lib/utils.js'
 import cloudinary from 'cloudinary'
 
-export const signup = async (req,res) => {
-    const {email,fullname,password}=req.body;
-    try {
-        
-        if(!email || !fullname || !password){
-            res.status(400).json({message:'Provide complete information'})
-        }
+  export const signup = async (req, res) => {
+  const { email, fullName, password } = req.body;
 
-        if (password.length < 6){
-            return res.status(400).json({message:"Password must be atleast of 6 characters"})
-        }
-
-        const user= await User.findOne({email})
-
-        if(user){
-            return res.status(400).json({message:"User already exist"})
-        }
-
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password,salt)
-
-        const newUser = new User({
-            fullname,
-            email,
-            password: hashedPassword
-        })
-
-
-        if(newUser){
-            //generate jwt token
-
-            generateToken(newUser._id,res);
-            await newUser.save()
-
-            res.status(201).json({
-                _id : newUser._id,
-                fullname : newUser.fullname,
-                email : newUser.email,
-                profilePic : newUser.profilePic
-            })
-        }else{
-            res.status(400).json({message:"Invalid User data provided"})
-        }
-
-    } catch (error) {
-        console.log('Error in signUp controller', error.message)
-        res.status(500).json({message:'Internal server error'})
-
+  try {
+    
+    if (!email || !fullName || !password) {
+        console.log("Headers:", req.headers);
+        console.log(req.body)
+      return res.status(400).json({ message: 'Provide complete information' });
     }
+
+    
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    }
+
+   
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+   
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // ✅ Create new user
+    const newUser = new User({
+      fullName,
+      email,
+      password: hashedPassword
+    });
+
+    await newUser.save();
+
+    // ✅ Generate token and send response
+    generateToken(newUser._id, res);
+    return res.status(201).json({
+      _id: newUser._id,
+      fullName: newUser.fullName,
+      email: newUser.email,
+      profilePic: newUser.profilePic
+    });
+
+  } catch (error) {
+    console.error('Error in signUp controller:', error.message);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 export const login = async (req,res) =>{
@@ -78,7 +77,7 @@ export const login = async (req,res) =>{
 
         res.status(200).json({
             _id : user._id,
-            fullname : user.fullname,
+            fullName : user.fullName,
             email : user.email,
             profilePic : user.profilePic
         })

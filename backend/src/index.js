@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser"
 // import { connect } from "mongoose";
 import { db } from "./lib/db.js";
 import { app,server } from "./lib/socket.js"
+import cors from "cors"
 
 
 dotenv.config()
@@ -18,7 +19,12 @@ app
 const PORT= process.env.PORT;
 
 app.use(express.json()) // to extract the data in json out of body
+// app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+app.use(cors({
+    origin:'http://localhost:5173',
+    credentials:true  // allow the cookies / authorization headers to be sent along with the request
+}))
 
 
 app.use('/api/auth',authRoutes)

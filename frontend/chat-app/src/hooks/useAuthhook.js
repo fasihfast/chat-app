@@ -1,0 +1,70 @@
+import {create} from "zustand" // zustand is a global state management library 
+// import { checkauth } from "../../../../backend/src/controllers/auth.controller"
+import axiosInstance from "../lib/axios"
+// import  data  from "react-router-dom"
+import toast from "react-hot-toast"
+
+const useAuthhook = create ((set) =>({
+    //set is a constructor
+    authUser : null ,  // initially the user will be null as it will be not authenticated initially
+    isSigningUp: false ,
+    isCheckingAuth : true , // initially it will be true becuase whenever page loads it will check user for auth
+
+     checkauth: async () => {
+    try {
+      const res = await axiosInstance.get("/auth/check");
+
+      set({ authUser: res.data });
+    //   get().connectSocket();
+    } catch (error) {
+      console.log("Error in checkAuth:", error);
+      set({ authUser: null });
+    } finally {
+      set({ isCheckingAuth: false });
+    }
+  },
+
+
+    signup: async (data) => {
+    set({ isSigningUp: true });
+    try {
+      const res = await axiosInstance.post("/auth/signup", data);
+      set({ authUser: res.data });
+      toast.success("Account created successfully");
+    //   get().connectSocket();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isSigningUp: false });
+    }
+  },
+
+    logout: async () => {
+    try {
+      await axiosInstance.post("/auth/logout");
+      set({ authUser: null });
+      toast.success("Logged out successfully");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  },
+
+   login: async (data) => {
+    set({ isLoggingIn: true });
+    try {
+      const res = await axiosInstance.post("/auth/login", data);
+      set({ authUser: res.data });
+      toast.success("Logged in successfully");
+
+    //   get().connectSocket();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoggingIn: false });
+    }
+  }
+
+}))
+
+
+export default useAuthhook
