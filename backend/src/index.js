@@ -19,7 +19,6 @@ app
 const PORT= process.env.PORT;
 
 app.use(express.json()) // to extract the data in json out of body
-// app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 app.use(cors({
     origin:'http://localhost:5173',
@@ -28,7 +27,7 @@ app.use(cors({
 
 
 app.use('/api/auth',authRoutes)
-app.use('/api/message',messageRoutes)
+app.use('/api/messages',messageRoutes)
 
 server.listen(PORT, ()=>{
     console.log(`Server is running on PORT ${PORT}`)

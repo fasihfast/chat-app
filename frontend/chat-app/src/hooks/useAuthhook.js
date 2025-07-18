@@ -1,14 +1,17 @@
 import {create} from "zustand" // zustand is a global state management library 
-// import { checkauth } from "../../../../backend/src/controllers/auth.controller"
 import axiosInstance from "../lib/axios"
-// import  data  from "react-router-dom"
 import toast from "react-hot-toast"
+
 
 const useAuthhook = create ((set) =>({
     //set is a constructor
     authUser : null ,  // initially the user will be null as it will be not authenticated initially
     isSigningUp: false ,
     isCheckingAuth : true , // initially it will be true becuase whenever page loads it will check user for auth
+    isLoggingIn : false,
+    isUpdatingProfile : false,
+    onlineUsers :[],
+
 
      checkauth: async () => {
     try {
@@ -62,9 +65,25 @@ const useAuthhook = create ((set) =>({
     } finally {
       set({ isLoggingIn: false });
     }
-  }
+  },
+
+  updateProfile: async (data) =>{
+  
+      set({ isUpdatingProfile: true });
+      try {
+        const res = await axiosInstance.put("/auth/updateProfile", data);
+        set({ authUser: res.data });
+        toast.success("Profile updated successfully");
+      } catch (error) {
+        console.log("error in update profile:", error);
+        toast.error(error.response.data.message);
+      } finally {
+        set({ isUpdatingProfile: false });
+      }
+    }
 
 }))
+
 
 
 export default useAuthhook

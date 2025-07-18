@@ -1,7 +1,13 @@
+import User from "../models/user.model.js";
+import Message from "../models/message.model.js";
+
+import cloudinary from "../lib/cloudinary.js";
+
+
 export const getUserForSideBar = async (req,res) =>{
     try {
         const LoggedInUser=req.user._id;
-        const filteredUsers = await find({_id:{$ne:LoggedInUser}}).select("-password")
+        const filteredUsers = await User.find({_id:{$ne:LoggedInUser}}).select("-password")
         
         res.status(200).json(filteredUsers)
 
@@ -31,7 +37,7 @@ export const getMessages = async (req,res)=>{
 
 export const sendMessage = async (req,res) =>{
     try{
-           const { text, image } = req.body;
+    const { text, image } = req.body;
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
