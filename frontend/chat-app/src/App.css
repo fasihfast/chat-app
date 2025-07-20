@@ -1,7 +1,8 @@
 @import "tailwindcss";
-@plugin "daisyui";
 @plugin "daisyui" {
-  themes: all;
+  themes: light --default, dark --prefersdark, cupcake;
+  customPurple: oklch(0.554 0.046 257.417);
+      
 }
 
 #root {

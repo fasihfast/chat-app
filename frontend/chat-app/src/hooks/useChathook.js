@@ -60,7 +60,7 @@ export const useChathook = create((set, get) => ({
     });
   },
 
-  unsubscribeFromMessages: () => {
+  unsubscribeFromMessages: () => {     // call when we will close the message window 
     const socket = useAuthhook.getState().socket;
     socket.off("newMessage");
   },

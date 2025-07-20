@@ -14,12 +14,15 @@ import {Toaster} from "react-hot-toast"
 
 function App() {
 
-  const {authUser, checkauth , isCheckingAuth} = useAuthhook();
+  const {authUser, checkauth , isCheckingAuth , onlineUsers } = useAuthhook();
 
+  
   useEffect(()=>{  //it will gets trigger as soon as page loads
     checkauth();
   },[checkauth])
-
+  
+  console.log(onlineUsers)
+  
   console.log(authUser)
 
   if(isCheckingAuth && !authUser) return(

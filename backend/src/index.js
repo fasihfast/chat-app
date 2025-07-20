@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import authRoutes from "./routes/auth.route.js"
 import messageRoutes from "./routes/message.route.js"
 import cookieParser from "cookie-parser"
+import userRoutes from "./routes/user.route.js"
 
 // import { connect } from "mongoose";
 import { db } from "./lib/db.js";
@@ -25,6 +26,20 @@ app.use(cors({
     credentials:true  // allow the cookies / authorization headers to be sent along with the request
 }))
 
+
+
+const predefinedQA = [
+  { question: "What services do you offer?", answer: "We provide AI automation, chatbot integration, and data scraping solutions." },
+  { question: "How can I contact support?", answer: "You can reach us at support@example.com." },
+  { question: "What is your pricing model?", answer: "Our pricing is flexible and depends on the service package you choose." },
+  { question: "What is your business model?", answer: "We provide Fintech services" },
+];
+
+app.get('/api/questions', (req, res) => {
+  res.json(predefinedQA);
+});
+
+app.use('/api/users', userRoutes);
 
 app.use('/api/auth',authRoutes)
 app.use('/api/messages',messageRoutes)
