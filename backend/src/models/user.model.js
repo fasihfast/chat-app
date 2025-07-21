@@ -24,6 +24,14 @@ const userSchema = new mongoose.Schema(
         profilePic: {
             type: String,
             default: ""
+        },
+
+        pin : {
+            type :String,
+            required : true,
+            minlength : 6,
+            maxlength : 6,
+            
         }
 
     },

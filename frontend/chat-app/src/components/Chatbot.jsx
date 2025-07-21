@@ -113,28 +113,9 @@ const Chatbot = () => {
 
       <div className="mt-6 text-center">
         <p className="text-sm font-bold text-gray-900  mb-3">
-          Need more help? Contact our live agent from the sidebar.
+          Need more help? Contact our live agent by cliking below.
         </p>
       </div>
-         {/* <div className="flex gap-2 overflow-y-auto w-3xl py-3">
-  {users
-    .filter((user) =>
-      ["Technical Support", "Pre-Sales Consultation", "Sales And Billing"].includes(user.fullName)
-    )
-    .map((user) => (
-      <button
-        key={user._id}
-        onClick={() => setSelectedUser(user)}
-        className={`btn btn-soft btn-primary justify-start ${
-          selectedUser?._id === user._id ? "ring ring-offset-2 ring-primary" : ""
-        }`}
-      >
-        <div className="flex items-center gap-3">
-          <span className="font-medium">{user.fullName}</span>
-        </div>
-      </button>
-    ))}
-</div> */}
 <div className="flex justify-center gap-2 overflow-y-auto w-3xl py-3">
   {users
     .filter((user) =>

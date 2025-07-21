@@ -10,6 +10,7 @@ export const useChathook = create((set, get) => ({
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
+  pinVerified: false,
 
   getUserForSideBar: async () => {
     set({ isUsersLoading: true });
@@ -66,4 +67,6 @@ export const useChathook = create((set, get) => ({
   },
 
   setSelectedUser: (selectedUser) => set({ selectedUser }),
+
+  setPinVerified: (status) => set({ pinVerified: status }),
 }));

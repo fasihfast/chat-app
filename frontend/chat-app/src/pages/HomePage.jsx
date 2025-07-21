@@ -13,7 +13,7 @@ const HomePage = () => {
 const agentNames = ["Technical Support", "Pre-Sales Consultation", "Sales And Billing"];
 const isAgent = agentNames.includes(authUser.fullName);
   // console.log("selectedUser", selectedUser)
-  // console.log("AuthUser Fullname",authUser?.fullName)
+  // console.log("AuthUser ",authUser)
 
   return (
     <div className="h-screen bg-base-200">

@@ -4,11 +4,11 @@ import {generateToken} from '../lib/utils.js'
 import cloudinary from 'cloudinary'
 
   export const signup = async (req, res) => {
-  const { email, fullName, password } = req.body;
+  const { email, fullName, password , pin} = req.body;
 
   try {
     
-    if (!email || !fullName || !password) {
+    if (!email || !fullName || !password || !pin) {
         console.log("Headers:", req.headers);
         console.log(req.body)
       return res.status(400).json({ message: 'Provide complete information' });
@@ -19,6 +19,9 @@ import cloudinary from 'cloudinary'
       return res.status(400).json({ message: 'Password must be at least 6 characters' });
     }
 
+   if (typeof pin !== 'string' || !/^\d{6}$/.test(pin)) {
+  return res.status(400).json({ message: 'Pin must be exactly 6 digits' });
+  }
    
     const user = await User.findOne({ email });
     if (user) {
@@ -33,18 +36,21 @@ import cloudinary from 'cloudinary'
     const newUser = new User({
       fullName,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      pin
     });
 
     await newUser.save();
 
     // ✅ Generate token and send response
     generateToken(newUser._id, res);
+
     return res.status(201).json({
       _id: newUser._id,
       fullName: newUser.fullName,
       email: newUser.email,
-      profilePic: newUser.profilePic
+      profilePic: newUser.profilePic,
+      pin: newUser.pin
     });
 
   } catch (error) {
@@ -79,7 +85,8 @@ export const login = async (req,res) =>{
             _id : user._id,
             fullName : user.fullName,
             email : user.email,
-            profilePic : user.profilePic
+            profilePic : user.profilePic,
+            pin : user.pin
         })
 
     } catch (error) {
