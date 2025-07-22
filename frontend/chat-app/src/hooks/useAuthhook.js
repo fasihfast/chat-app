@@ -90,7 +90,7 @@ const useAuthhook = create ((set,get) =>({
 
       if(!authUser || get().socket?.connected) return ;
       
-      const socket = io("http://localhost:3000",{
+      const socket = io("https://linkup-e4dw.onrender.com",{
         query:{
            userId: authUser._id,
         }

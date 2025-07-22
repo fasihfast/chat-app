@@ -17,7 +17,7 @@ const Chatbot = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/questions')
+      .get('https://linkup-e4dw.onrender.com/api/questions')
       .then((res) => {
         setQaList(res.data);
         setVisibleQAs(res.data.slice(0, 3));
