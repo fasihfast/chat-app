@@ -11,10 +11,10 @@ import { app,server } from "./lib/socket.js"
 import cors from "cors"
 
 
-dotenv.config()
+dotenv.config({ path: '../.env' });
 
 
-const PORT= process.env.PORT;
+const PORT= process.env.PORT || 3000;
 
 app.use(express.json()) // to extract the data in json out of body
 app.use(cookieParser())
