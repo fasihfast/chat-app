@@ -19,11 +19,9 @@ const PORT= process.env.PORT || 3000;
 app.use(express.json()) // to extract the data in json out of body
 app.use(cookieParser())
 app.use(cors({
-    // origin:'https://link-up-9pa0.onrender.com',
-    origin: '*',
-    credentials:true  // allow the cookies / authorization headers to be sent along with the request
-}))
-
+  origin: 'https://link-up-9pa0.onrender.com',
+  credentials: true
+}));
 
 
 const predefinedQA = [
